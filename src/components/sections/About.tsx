@@ -52,7 +52,15 @@ const experience = [
   },
 ];
 
-function SkillBar({ name, level, index }: { name: string; level: number; index: number }) {
+function SkillBar({
+  name,
+  level,
+  index,
+}: {
+  name: string;
+  level: number;
+  index: number;
+}) {
   const barRef = useRef<HTMLDivElement>(null);
   const numberRef = useRef<HTMLSpanElement>(null);
 
@@ -69,10 +77,10 @@ function SkillBar({ name, level, index }: { name: string; level: number; index: 
           ease: "power3.out",
           scrollTrigger: {
             trigger: barRef.current,
-            start: "top 90%",
+            start: "top 92%",
             toggleActions: "play none none reverse",
           },
-          delay: index * 0.1,
+          delay: index * 0.08,
         }
       );
 
@@ -83,10 +91,10 @@ function SkillBar({ name, level, index }: { name: string; level: number; index: 
         ease: "power3.out",
         scrollTrigger: {
           trigger: barRef.current,
-          start: "top 90%",
+          start: "top 92%",
           toggleActions: "play none none reverse",
         },
-        delay: index * 0.1,
+        delay: index * 0.08,
         onUpdate: () => {
           if (numberRef.current) {
             numberRef.current.textContent = `${Math.round(obj.val)}%`;
@@ -99,14 +107,14 @@ function SkillBar({ name, level, index }: { name: string; level: number; index: 
   }, [level, index]);
 
   return (
-    <div className="mb-4">
-      <div className="flex justify-between items-center mb-1.5">
-        <span className="text-sm font-medium">{name}</span>
-        <span ref={numberRef} className="text-xs font-mono text-accent">
+    <div className="mb-5">
+      <div className="flex justify-between items-center mb-2">
+        <span className="text-sm font-medium text-foreground/80">{name}</span>
+        <span ref={numberRef} className="text-xs font-mono text-accent tabular-nums">
           0%
         </span>
       </div>
-      <div className="h-2 bg-foreground/5 rounded-full overflow-hidden">
+      <div className="h-1.5 bg-foreground/5 rounded-full overflow-hidden">
         <div
           ref={barRef}
           className="h-full bg-linear-to-r from-accent to-accent-light rounded-full origin-left"
@@ -126,22 +134,28 @@ function TimelineItem({
 }) {
   return (
     <motion.div
-      initial={{ opacity: 0, x: -30 }}
+      initial={{ opacity: 0, x: -20 }}
       whileInView={{ opacity: 1, x: 0 }}
       viewport={{ once: true }}
-      transition={{ duration: 0.5, delay: index * 0.15 }}
-      className="relative pl-8 pb-10 last:pb-0"
+      transition={{ duration: 0.4, delay: index * 0.12 }}
+      className="relative pl-10 pb-10 last:pb-0"
     >
       {/* Connecting line */}
-      <div className="absolute left-[7px] top-3 bottom-0 w-[1px] bg-border last:hidden" />
+      <div className="absolute left-2.25 top-4.5 bottom-0 w-px bg-white/8" />
       {/* Dot */}
-      <div className="absolute left-0 top-2 w-[15px] h-[15px] rounded-full border-2 border-accent bg-background" />
+      <div className="absolute left-0 top-2.5 w-4.75 h-4.75 rounded-full border-2 border-accent bg-background flex items-center justify-center">
+        <div className="w-1.75 h-1.75 rounded-full bg-accent" />
+      </div>
 
-      <div>
-        <span className="text-xs font-mono text-accent">{item.period}</span>
-        <h4 className="text-base font-bold mt-1">{item.role}</h4>
-        <p className="text-sm text-foreground/60 font-medium">{item.company}</p>
-        <p className="text-sm text-foreground/40 mt-2 leading-relaxed">
+      <div className="bg-white/2 border border-white/5 rounded-xl p-5 hover:border-accent/20 transition-colors duration-300">
+        <span className="text-xs font-mono text-accent tracking-wider">
+          {item.period}
+        </span>
+        <h4 className="text-base font-bold mt-1.5 text-foreground">{item.role}</h4>
+        <p className="text-sm text-foreground/50 font-medium mt-0.5">
+          {item.company}
+        </p>
+        <p className="text-sm text-foreground/35 mt-3 leading-relaxed">
           {item.description}
         </p>
       </div>
@@ -156,65 +170,62 @@ export default function About() {
     offset: ["start end", "end start"],
   });
 
-  const bgY = useTransform(scrollYProgress, [0, 1], [0, -100]);
-  const midY = useTransform(scrollYProgress, [0, 1], [0, -60]);
+  const bgY = useTransform(scrollYProgress, [0, 1], [0, -80]);
+  const midY = useTransform(scrollYProgress, [0, 1], [0, -50]);
 
   return (
-    <section ref={sectionRef} id="about" className="relative py-24 md:py-32 px-6 overflow-hidden">
-      {/* Parallax background shapes */}
+    <section
+      ref={sectionRef}
+      id="about"
+      className="relative py-24 md:py-32 px-6 overflow-hidden"
+    >
+      {/* Parallax background glow */}
       <motion.div
         style={{ y: bgY }}
-        className="absolute -top-20 -right-20 w-96 h-96 rounded-full bg-accent/5 blur-3xl pointer-events-none"
+        className="absolute -top-32 -right-32 w-125 h-125 rounded-full bg-accent/4 blur-[120px] pointer-events-none"
       />
       <motion.div
         style={{ y: midY }}
-        className="absolute top-1/2 -left-32 w-72 h-72 rounded-full bg-cyan/5 blur-3xl pointer-events-none"
+        className="absolute top-1/2 -left-40 w-80 h-80 rounded-full bg-cyan/4 blur-[100px] pointer-events-none"
       />
 
-      <div className="max-w-7xl mx-auto">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
-          {/* Left - Decorative */}
-          <div className="relative hidden lg:flex items-center justify-center">
-            <motion.div
-              style={{ y: bgY }}
-              className="absolute w-64 h-64 rounded-3xl bg-accent/10 rotate-12"
-            />
-            <motion.div
-              style={{ y: midY }}
-              className="absolute w-48 h-48 rounded-3xl bg-cyan/10 -rotate-6 translate-x-12 translate-y-12"
-            />
-            <div className="relative w-72 h-72 rounded-3xl bg-linear-to-br from-accent/20 to-cyan/20 flex items-center justify-center">
-              <span className="text-8xl font-bold text-accent/20">AC</span>
-            </div>
-          </div>
+      <div className="max-w-6xl mx-auto">
+        {/* Section header */}
+        <div className="text-center mb-16">
+          <SplitText
+            as="h2"
+            className="text-3xl md:text-5xl font-bold"
+            direction="up"
+          >
+            About Me
+          </SplitText>
+          <motion.p
+            initial={{ opacity: 0, y: 15 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.2 }}
+            className="text-foreground/50 mt-4 max-w-2xl mx-auto text-sm md:text-base leading-relaxed"
+          >
+            I&apos;m a creative developer with 6+ years of experience building
+            digital products that merge clean engineering with thoughtful design.
+            I specialize in interactive web experiences, real-time applications,
+            and systems that scale.
+          </motion.p>
+        </div>
 
-          {/* Right - Content */}
-          <div>
-            <SplitText
-              as="h2"
-              className="text-3xl md:text-5xl font-bold mb-8"
-              direction="up"
-            >
-              About Me
-            </SplitText>
-
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="text-foreground/60 leading-relaxed mb-12"
-            >
-              I&apos;m a creative developer with 6+ years of experience building
-              digital products that merge clean engineering with thoughtful
-              design. I specialize in interactive web experiences, real-time
-              applications, and systems that scale. Currently focused on pushing
-              the boundaries of what&apos;s possible in the browser with 3D
-              graphics and animation.
-            </motion.p>
-
-            {/* Skills */}
-            <div className="mb-12">
-              <h3 className="text-lg font-bold mb-6">Technical Skills</h3>
+        {/* Skills + Experience two-column grid */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16">
+          {/* Left - Skills */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+          >
+            <h3 className="text-xl font-bold mb-8 flex items-center gap-3">
+              <span className="w-8 h-px bg-accent" />
+              Technical Skills
+            </h3>
+            <div>
               {skills.map((skill, i) => (
                 <SkillBar
                   key={skill.name}
@@ -224,15 +235,25 @@ export default function About() {
                 />
               ))}
             </div>
+          </motion.div>
 
-            {/* Experience */}
+          {/* Right - Experience */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.1 }}
+          >
+            <h3 className="text-xl font-bold mb-8 flex items-center gap-3">
+              <span className="w-8 h-px bg-accent" />
+              Experience
+            </h3>
             <div>
-              <h3 className="text-lg font-bold mb-6">Experience</h3>
               {experience.map((item, i) => (
                 <TimelineItem key={item.company} item={item} index={i} />
               ))}
             </div>
-          </div>
+          </motion.div>
         </div>
       </div>
     </section>

@@ -36,7 +36,7 @@ export default function Navbar() {
           className="text-xl font-bold tracking-tight hover:text-accent transition-colors"
           data-cursor="link"
         >
-          Portfolio<span className="text-accent">.</span>
+          Karan<span className="text-accent">.</span>
         </Link>
 
         {/* Desktop nav */}
@@ -54,6 +54,8 @@ export default function Navbar() {
           ))}
           <a
             href="/resume.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
             className="text-sm font-medium px-4 py-2 rounded-lg border border-accent text-accent hover:bg-accent hover:text-foreground transition-all duration-300"
             data-cursor="link"
           >
@@ -105,6 +107,8 @@ export default function Navbar() {
                 ))}
                 <motion.a
                   href="/resume.pdf"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   initial={{ opacity: 0, x: 20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: navLinks.length * 0.1 }}

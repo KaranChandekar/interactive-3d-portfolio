@@ -3,9 +3,9 @@ import { spaceGrotesk, jetbrainsMono } from "@/lib/fonts";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Portfolio | Creative Developer",
+  title: "Karan Chandekar | Software Engineer",
   description:
-    "Interactive 3D portfolio showcasing creative development work with modern web technologies.",
+    "Software Engineer with 3+ years of experience building AI-powered full-stack applications with React, Next.js, TypeScript, and Python.",
 };
 
 export default function RootLayout({

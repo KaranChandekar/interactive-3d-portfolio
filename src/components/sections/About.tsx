@@ -11,44 +11,45 @@ gsap.registerPlugin(ScrollTrigger);
 const skills = [
   { name: "React / Next.js", level: 95 },
   { name: "TypeScript", level: 92 },
-  { name: "Three.js / R3F", level: 85 },
-  { name: "Node.js", level: 90 },
+  { name: "JavaScript", level: 95 },
+  { name: "Node.js", level: 88 },
   { name: "Python", level: 82 },
-  { name: "PostgreSQL", level: 88 },
-  { name: "AWS / Cloud", level: 80 },
-  { name: "UI/UX Design", level: 78 },
-  { name: "GraphQL", level: 85 },
-  { name: "Docker / K8s", level: 75 },
+  { name: "Tailwind CSS", level: 92 },
+  { name: "LLM Integration / RAG", level: 88 },
+  { name: "AI Agents", level: 85 },
+  { name: "Framer Motion", level: 85 },
+  { name: "Git / GitHub", level: 90 },
 ];
 
 const experience = [
   {
-    role: "Senior Frontend Engineer",
-    company: "TechCorp",
-    period: "2023 — Present",
+    role: "Software Engineer",
+    company: "Salk AI",
+    period: "Aug 2023 — Present",
     description:
-      "Lead the frontend architecture for a suite of SaaS products serving 2M+ users. Introduced micro-frontend patterns and improved Core Web Vitals by 40%.",
+      "Built and deployed AI-powered applications including task-specific AI agents for enterprise-grade lead generation and sales automation. Integrated LLMs into production systems with RAG pipelines and prompt engineering. Developed full-stack AI-driven products using React, Next.js, TypeScript, and Node.js.",
   },
   {
-    role: "Full-Stack Developer",
-    company: "StartupXYZ",
-    period: "2021 — 2023",
+    role: "Frontend Developer Intern",
+    company: "StampMyVisa",
+    period: "Mar 2023 — Jun 2023",
     description:
-      "Built the core platform from 0 to 1, implementing real-time collaboration features, payment integrations, and a custom design system.",
+      "Translated complex Figma designs into pixel-perfect, responsive UI components using React, Next.js, TypeScript, and Tailwind CSS. Designed custom HTML email templates for marketing campaigns.",
   },
   {
-    role: "Frontend Developer",
-    company: "DigitalAgency",
-    period: "2019 — 2021",
+    role: "Frontend Developer Intern",
+    company: "UCPI",
+    period: "Oct 2022 — Dec 2022",
     description:
-      "Developed interactive websites and web applications for Fortune 500 clients. Specialized in animation-heavy experiences using GSAP and Three.js.",
+      "Developed and shipped end-to-end web applications for multiple products using React, resulting in a 40% increase in user engagement and a 20% boost in conversion rates. Built the company\u2019s official website from scratch.",
   },
+];
+
+const education = [
   {
-    role: "Junior Developer",
-    company: "WebStudio",
-    period: "2018 — 2019",
-    description:
-      "Started career building responsive websites and learning modern JavaScript frameworks. Contributed to 20+ client projects.",
+    degree: "Bachelor of Computer Applications (BCA)",
+    institution: "Shivaji Science College, Nagpur, India",
+    period: "Graduated July 2024",
   },
 ];
 
@@ -206,10 +207,10 @@ export default function About() {
             transition={{ delay: 0.2 }}
             className="text-foreground/50 mt-4 max-w-2xl mx-auto text-sm md:text-base leading-relaxed"
           >
-            I&apos;m a creative developer with 6+ years of experience building
-            digital products that merge clean engineering with thoughtful design.
-            I specialize in interactive web experiences, real-time applications,
-            and systems that scale.
+            Software Engineer with 3+ years of experience building and deploying
+            AI-powered full-stack applications. Proficient in React, Next.js,
+            TypeScript, Node.js, and Python. Specialized in LLM integration,
+            RAG pipelines, AI agent development, and prompt engineering.
           </motion.p>
         </div>
 
@@ -253,6 +254,26 @@ export default function About() {
                 <TimelineItem key={item.company} item={item} index={i} />
               ))}
             </div>
+
+            {/* Education */}
+            <h3 className="text-xl font-bold mt-12 mb-8 flex items-center gap-3">
+              <span className="w-8 h-px bg-accent" />
+              Education
+            </h3>
+            {education.map((edu) => (
+              <div
+                key={edu.institution}
+                className="bg-white/2 border border-white/5 rounded-xl p-5 hover:border-accent/20 transition-colors duration-300"
+              >
+                <h4 className="text-base font-bold text-foreground">{edu.degree}</h4>
+                <p className="text-sm text-foreground/50 font-medium mt-0.5">
+                  {edu.institution}
+                </p>
+                <span className="text-xs font-mono text-accent tracking-wider mt-2 block">
+                  {edu.period}
+                </span>
+              </div>
+            ))}
           </motion.div>
         </div>
       </div>

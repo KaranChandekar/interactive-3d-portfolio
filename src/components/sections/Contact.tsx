@@ -24,9 +24,9 @@ interface FieldErrors {
 }
 
 const socialLinks = [
-  { icon: GithubIcon, href: "https://github.com", label: "GitHub" },
-  { icon: LinkedinIcon, href: "https://linkedin.com", label: "LinkedIn" },
-  { icon: TwitterIcon, href: "https://twitter.com", label: "Twitter" },
+  { icon: GithubIcon, href: "https://github.com/karanchandekar", label: "GitHub" },
+  { icon: LinkedinIcon, href: "https://linkedin.com/in/karanchandekar", label: "LinkedIn" },
+  { icon: TwitterIcon, href: "https://twitter.com/karanchandekar", label: "Twitter" },
 ];
 
 function FloatingInput({
@@ -371,7 +371,7 @@ export default function Contact() {
             {/* Info cards */}
             <div className="space-y-4">
               <a
-                href="mailto:hello@alexchen.dev"
+                href="mailto:karanchandekar431@gmail.com"
                 className="flex items-center gap-4 p-4 rounded-xl bg-white/3 border border-white/6 hover:border-accent/30 transition-all duration-300 group"
                 data-cursor="link"
               >
@@ -383,13 +383,13 @@ export default function Contact() {
                     Email
                   </p>
                   <p className="text-sm font-medium text-foreground/80 group-hover:text-accent transition-colors truncate">
-                    hello@alexchen.dev
+                    karanchandekar431@gmail.com
                   </p>
                 </div>
               </a>
 
               <a
-                href="tel:+15551234567"
+                href="tel:+917798227672"
                 className="flex items-center gap-4 p-4 rounded-xl bg-white/3 border border-white/6 hover:border-accent/30 transition-all duration-300 group"
                 data-cursor="link"
               >
@@ -401,7 +401,7 @@ export default function Contact() {
                     Phone
                   </p>
                   <p className="text-sm font-medium text-foreground/80 group-hover:text-accent transition-colors">
-                    +1 (555) 123-4567
+                    +91-7798227672
                   </p>
                 </div>
               </a>

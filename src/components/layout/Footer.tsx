@@ -5,11 +5,11 @@ export default function Footer() {
     <footer className="border-t border-border py-8 px-6">
       <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
         <p className="text-sm text-foreground/40">
-          &copy; {new Date().getFullYear()} Alex Chen. All rights reserved.
+          &copy; {new Date().getFullYear()} Karan Chandekar. All rights reserved.
         </p>
         <div className="flex items-center gap-4">
           <a
-            href="https://github.com"
+            href="https://github.com/karanchandekar"
             target="_blank"
             rel="noopener noreferrer"
             aria-label="GitHub"
@@ -18,7 +18,7 @@ export default function Footer() {
             <GithubIcon size={18} />
           </a>
           <a
-            href="https://linkedin.com"
+            href="https://linkedin.com/in/karanchandekar"
             target="_blank"
             rel="noopener noreferrer"
             aria-label="LinkedIn"
@@ -27,7 +27,7 @@ export default function Footer() {
             <LinkedinIcon size={18} />
           </a>
           <a
-            href="https://twitter.com"
+            href="https://twitter.com/karanchandekar"
             target="_blank"
             rel="noopener noreferrer"
             aria-label="Twitter"

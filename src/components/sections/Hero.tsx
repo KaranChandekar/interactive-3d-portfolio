@@ -100,7 +100,7 @@ export default function Hero() {
             scrollTrigger={false}
             delay={0.5}
           >
-            Creative Developer
+            Software Engineer
           </SplitText>
         </div>
 
@@ -121,7 +121,7 @@ export default function Hero() {
             scrollTrigger={false}
             delay={1.2}
           >
-            Alex Chen
+            Karan Chandekar
           </SplitText>
         </h1>
 
@@ -134,7 +134,7 @@ export default function Hero() {
             delay={1.6}
             stagger={0.02}
           >
-            I build immersive digital experiences with modern web technologies
+            I build AI-powered full-stack applications with modern web technologies
           </SplitText>
         </div>
 

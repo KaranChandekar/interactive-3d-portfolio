@@ -4,7 +4,7 @@ import { use, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { ArrowLeft, ChevronLeft, ChevronRight } from "lucide-react";
+import { ArrowLeft, ChevronLeft, ChevronRight, ExternalLink } from "lucide-react";
 import { getProjectBySlug, getRelatedProjects, projects } from "@/data/projects";
 import SmoothScroll from "@/components/layout/SmoothScroll";
 import Navbar from "@/components/layout/Navbar";
@@ -132,15 +132,43 @@ export default function ProjectDetail({
               />
               Back to projects
             </Link>
+            <div className="flex items-center gap-3 mb-3">
+              <span
+                className={`text-[11px] px-3 py-1 rounded-full font-mono tracking-wider uppercase backdrop-blur-md ${
+                  project.category === "AI Applications"
+                    ? "bg-emerald-500/15 text-emerald-400 border border-emerald-500/20"
+                    : project.category === "Professional"
+                      ? "bg-amber-500/15 text-amber-400 border border-amber-500/20"
+                      : "bg-accent/15 text-accent/80 border border-accent/20"
+                }`}
+              >
+                {project.category}
+              </span>
+            </div>
             <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold mb-4">
               {project.title}
             </h1>
-            <div className="flex flex-wrap gap-4 text-sm text-foreground/50">
+            <div className="flex flex-wrap items-center gap-4 text-sm text-foreground/50">
               <span>{project.date}</span>
               <span>·</span>
               <span>{project.team}</span>
               <span>·</span>
               <span>{project.client}</span>
+              {project.liveUrl && (
+                <>
+                  <span>·</span>
+                  <a
+                    href={project.liveUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1.5 text-accent hover:text-accent/80 transition-colors"
+                    data-cursor="link"
+                  >
+                    <ExternalLink size={14} />
+                    Live Demo
+                  </a>
+                </>
+              )}
             </div>
           </div>
         </div>

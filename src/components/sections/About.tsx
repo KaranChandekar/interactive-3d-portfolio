@@ -236,24 +236,6 @@ export default function About() {
                 />
               ))}
             </div>
-          </motion.div>
-
-          {/* Right - Experience */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.1 }}
-          >
-            <h3 className="text-xl font-bold mb-8 flex items-center gap-3">
-              <span className="w-8 h-px bg-accent" />
-              Experience
-            </h3>
-            <div>
-              {experience.map((item, i) => (
-                <TimelineItem key={item.company} item={item} index={i} />
-              ))}
-            </div>
 
             {/* Education */}
             <h3 className="text-xl font-bold mt-12 mb-8 flex items-center gap-3">
@@ -274,6 +256,24 @@ export default function About() {
                 </span>
               </div>
             ))}
+          </motion.div>
+
+          {/* Right - Experience */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.1 }}
+          >
+            <h3 className="text-xl font-bold mb-8 flex items-center gap-3">
+              <span className="w-8 h-px bg-accent" />
+              Experience
+            </h3>
+            <div>
+              {experience.map((item, i) => (
+                <TimelineItem key={item.company} item={item} index={i} />
+              ))}
+            </div>
           </motion.div>
         </div>
       </div>

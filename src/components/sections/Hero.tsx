@@ -5,7 +5,6 @@ import dynamic from "next/dynamic";
 import { motion } from "framer-motion";
 import { ArrowDown } from "lucide-react";
 import SplitText from "@/components/ui/SplitText";
-import MagneticButton from "@/components/ui/MagneticButton";
 
 const Scene = dynamic(() => import("@/components/three/Scene"), {
   ssr: false,
@@ -13,58 +12,31 @@ const Scene = dynamic(() => import("@/components/three/Scene"), {
 
 function SceneFallback() {
   return (
-    <div className="absolute inset-0 flex items-center justify-center">
-      <div className="w-16 h-16 border-2 border-accent border-t-transparent rounded-full animate-spin" />
+    <div className="w-full h-full flex items-center justify-center bg-card rounded-2xl">
+      <div className="w-10 h-10 border-2 border-accent border-t-transparent rounded-full animate-spin" />
     </div>
   );
 }
 
 function MobileHero() {
   return (
-    <div className="absolute inset-0 overflow-hidden">
-      {/* Animated gradient orbs */}
+    <div className="absolute inset-0 overflow-hidden pointer-events-none">
       <motion.div
         animate={{
-          scale: [1, 1.2, 1],
-          opacity: [0.15, 0.25, 0.15],
+          scale: [1, 1.3, 1],
+          opacity: [0.1, 0.2, 0.1],
         }}
         transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute top-1/4 left-1/4 w-64 h-64 rounded-full bg-accent blur-[100px]"
+        className="absolute top-1/4 left-1/6 w-80 h-80 rounded-full bg-accent blur-[120px]"
       />
       <motion.div
         animate={{
           scale: [1.2, 1, 1.2],
-          opacity: [0.1, 0.2, 0.1],
+          opacity: [0.08, 0.15, 0.08],
         }}
         transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute bottom-1/4 right-1/4 w-48 h-48 rounded-full bg-cyan blur-[80px]"
+        className="absolute bottom-1/4 right-1/6 w-64 h-64 rounded-full bg-accent-dark blur-[100px]"
       />
-      <svg
-        viewBox="0 0 400 400"
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-80 h-80 opacity-10"
-      >
-        <motion.polygon
-          points="200,50 350,150 300,320 100,320 50,150"
-          fill="none"
-          stroke="#7c3aed"
-          strokeWidth="1"
-          animate={{ rotate: 360 }}
-          transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
-          style={{ transformOrigin: "200px 200px" }}
-        />
-        <motion.circle
-          cx="200"
-          cy="200"
-          r="150"
-          fill="none"
-          stroke="#a855f7"
-          strokeWidth="0.5"
-          strokeDasharray="10 5"
-          animate={{ rotate: -360 }}
-          transition={{ duration: 40, repeat: Infinity, ease: "linear" }}
-          style={{ transformOrigin: "200px 200px" }}
-        />
-      </svg>
     </div>
   );
 }
@@ -73,107 +45,102 @@ export default function Hero() {
   return (
     <section
       id="home"
-      className="relative min-h-screen flex items-center justify-center overflow-hidden"
+      className="relative min-h-screen flex items-center overflow-hidden px-6 md:px-12 lg:px-20"
     >
-      {/* Gradient background base */}
-      <div className="absolute inset-0 bg-linear-to-b from-background via-background to-accent/5" />
-
-      {/* 3D Canvas - Desktop only */}
-      <div className="absolute inset-0 hidden md:block">
-        <Suspense fallback={<SceneFallback />}>
-          <Scene />
-        </Suspense>
-      </div>
-
-      {/* Mobile fallback */}
+      {/* Mobile fallback background */}
       <div className="md:hidden">
         <MobileHero />
       </div>
 
-      {/* Content overlay */}
-      <div className="relative z-10 text-center px-6 max-w-4xl mx-auto">
-        <div className="mb-4">
-          <SplitText
-            as="p"
-            className="text-accent text-sm md:text-base font-mono tracking-wider uppercase"
-            direction="right"
-            scrollTrigger={false}
-            delay={0.5}
+      <div className="relative z-10 w-full max-w-[1440px] mx-auto grid grid-cols-1 md:grid-cols-5 gap-8 md:gap-12 items-center pt-24 md:pt-0">
+        {/* Left column - Typography (60%) */}
+        <div className="md:col-span-3 flex flex-col gap-6">
+          <div>
+            <SplitText
+              as="p"
+              className="font-mono text-accent text-xs sm:text-sm tracking-[0.2em] uppercase mb-4"
+              direction="right"
+              scrollTrigger={false}
+              delay={0.3}
+            >
+              Software Engineer
+            </SplitText>
+          </div>
+
+          <h1 className="text-[clamp(3rem,10vw,8rem)] font-bold leading-[0.9] tracking-[-0.05em]">
+            <SplitText
+              as="span"
+              className="block"
+              direction="up"
+              scrollTrigger={false}
+              delay={0.5}
+            >
+              Karan
+            </SplitText>
+            <SplitText
+              as="span"
+              className="block text-accent"
+              direction="up"
+              scrollTrigger={false}
+              delay={0.8}
+            >
+              Chandekar
+            </SplitText>
+          </h1>
+
+          <div>
+            <SplitText
+              as="p"
+              className="text-foreground/50 text-base md:text-lg max-w-md leading-relaxed"
+              direction="up"
+              scrollTrigger={false}
+              delay={1.1}
+              stagger={0.02}
+            >
+              I build AI-powered full-stack applications with modern web technologies
+            </SplitText>
+          </div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 1.6, duration: 0.6 }}
+            className="flex flex-col sm:flex-row items-start gap-6 mt-4"
           >
-            Software Engineer
-          </SplitText>
+            <a
+              href="#projects"
+              className="group flex items-center gap-2 text-accent font-mono text-sm tracking-wider hover:gap-3 transition-all duration-300"
+              data-cursor="link"
+            >
+              Selected Work
+              <ArrowDown size={14} className="transition-transform group-hover:translate-y-0.5" />
+            </a>
+            <a
+              href="/resume.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-foreground/40 font-mono text-sm tracking-wider hover:text-foreground/70 transition-colors"
+              data-cursor="link"
+            >
+              Resume &rarr;
+            </a>
+          </motion.div>
         </div>
 
-        <h1 className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-bold leading-tight mb-6">
-          <SplitText
-            as="span"
-            className="block"
-            direction="up"
-            scrollTrigger={false}
-            delay={0.8}
+        {/* Right column - 3D Scene window (40%) */}
+        <div className="md:col-span-2 hidden md:block">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.6, duration: 0.8, ease: "easeOut" }}
+            className="relative aspect-[4/5] rounded-2xl overflow-hidden border border-foreground/5 bg-card"
           >
-            Hello, I&apos;m
-          </SplitText>
-          <SplitText
-            as="span"
-            className="block text-transparent bg-clip-text bg-linear-to-r from-accent via-accent-light to-cyan"
-            direction="center"
-            scrollTrigger={false}
-            delay={1.2}
-          >
-            Karan Chandekar
-          </SplitText>
-        </h1>
-
-        <div className="mb-10">
-          <SplitText
-            as="p"
-            className="text-foreground/60 text-base md:text-lg max-w-xl mx-auto"
-            direction="up"
-            scrollTrigger={false}
-            delay={1.6}
-            stagger={0.02}
-          >
-            I build AI-powered full-stack applications with modern web technologies
-          </SplitText>
+            <Suspense fallback={<SceneFallback />}>
+              <Scene />
+            </Suspense>
+          </motion.div>
         </div>
-
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 2, duration: 0.6 }}
-          className="flex flex-col sm:flex-row items-center justify-center gap-4"
-        >
-          <MagneticButton href="#projects">
-            View My Work
-            <ArrowDown size={16} />
-          </MagneticButton>
-          <MagneticButton
-            href="#contact"
-            className="bg-transparent! border! border-foreground/20! text-foreground! hover:border-accent! hover:text-accent!"
-          >
-            Get In Touch
-          </MagneticButton>
-        </motion.div>
       </div>
-
-      {/* Scroll indicator */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 2.5 }}
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
-      >
-        <span className="text-xs text-foreground/40 uppercase tracking-widest">
-          Scroll
-        </span>
-        <motion.div
-          animate={{ y: [0, 8, 0] }}
-          transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
-        >
-          <ArrowDown size={16} className="text-foreground/40" />
-        </motion.div>
-      </motion.div>
     </section>
   );
 }

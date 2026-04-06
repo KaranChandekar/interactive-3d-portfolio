@@ -1,27 +1,40 @@
 "use client";
 
-import { use, useRef, useState } from "react";
+import { use, useRef, useState, useEffect, useCallback } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { ArrowLeft, ChevronLeft, ChevronRight, ExternalLink } from "lucide-react";
-import { getProjectBySlug, getRelatedProjects, projects } from "@/data/projects";
+import { getProjectBySlug, getRelatedProjects } from "@/data/projects";
 import SmoothScroll from "@/components/layout/SmoothScroll";
 import Navbar from "@/components/layout/Navbar";
 import MagneticCursor from "@/components/layout/MagneticCursor";
 import Footer from "@/components/layout/Footer";
-import SplitText from "@/components/ui/SplitText";
 
 function GalleryCarousel({ images }: { images: string[] }) {
   const [current, setCurrent] = useState(0);
 
-  const next = () => setCurrent((prev) => (prev + 1) % images.length);
-  const prev = () =>
-    setCurrent((p) => (p - 1 + images.length) % images.length);
+  const next = useCallback(
+    () => setCurrent((prev) => (prev + 1) % images.length),
+    [images.length]
+  );
+  const prev = useCallback(
+    () => setCurrent((p) => (p - 1 + images.length) % images.length),
+    [images.length]
+  );
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "ArrowRight") next();
+      if (e.key === "ArrowLeft") prev();
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [next, prev]);
 
   return (
     <div className="relative overflow-hidden rounded-2xl">
-      <div className="relative h-64 md:h-96">
+      <div className="relative aspect-[16/9]">
         {images.map((img, i) => (
           <motion.div
             key={i}
@@ -45,18 +58,22 @@ function GalleryCarousel({ images }: { images: string[] }) {
       </div>
       <button
         onClick={prev}
-        className="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-background/80 flex items-center justify-center hover:bg-accent transition-colors"
+        className="absolute left-4 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-background/80 flex items-center justify-center hover:bg-accent hover:text-background transition-colors"
         aria-label="Previous image"
       >
         <ChevronLeft size={20} />
       </button>
       <button
         onClick={next}
-        className="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-background/80 flex items-center justify-center hover:bg-accent transition-colors"
+        className="absolute right-4 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-background/80 flex items-center justify-center hover:bg-accent hover:text-background transition-colors"
         aria-label="Next image"
       >
         <ChevronRight size={20} />
       </button>
+      {/* Image counter */}
+      <div className="absolute bottom-4 right-4 px-3 py-1 rounded-full bg-background/60 backdrop-blur-sm text-xs font-mono text-foreground/60">
+        {current + 1} / {images.length}
+      </div>
       <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2">
         {images.map((_, i) => (
           <button
@@ -108,7 +125,7 @@ export default function ProjectDetail({
         <Navbar />
 
         {/* Hero */}
-        <div ref={heroRef} className="relative h-[60vh] md:h-[70vh] overflow-hidden">
+        <div ref={heroRef} className="relative h-[70vh] md:h-[85vh] overflow-hidden">
           <motion.div style={{ y: heroY }} className="absolute inset-0">
             <Image
               src={project.heroImage}
@@ -120,7 +137,7 @@ export default function ProjectDetail({
             />
           </motion.div>
           <div className="absolute inset-0 bg-linear-to-t from-background via-background/50 to-transparent" />
-          <div className="absolute bottom-0 left-0 right-0 p-6 md:p-12 max-w-5xl mx-auto">
+          <div className="absolute bottom-0 left-0 right-0 p-6 md:p-12 lg:p-20 max-w-[1440px] mx-auto">
             <Link
               href="/#projects"
               className="inline-flex items-center gap-2 text-sm text-foreground/60 hover:text-accent transition-colors mb-6 group"
@@ -133,35 +150,27 @@ export default function ProjectDetail({
               Back to projects
             </Link>
             <div className="flex items-center gap-3 mb-3">
-              <span
-                className={`text-[11px] px-3 py-1 rounded-full font-mono tracking-wider uppercase backdrop-blur-md ${
-                  project.category === "AI Applications"
-                    ? "bg-emerald-500/15 text-emerald-400 border border-emerald-500/20"
-                    : project.category === "Professional"
-                      ? "bg-amber-500/15 text-amber-400 border border-amber-500/20"
-                      : "bg-accent/15 text-accent/80 border border-accent/20"
-                }`}
-              >
+              <span className="text-[11px] px-3 py-1 rounded-full font-mono tracking-wider uppercase bg-accent/15 text-accent border border-accent/20">
                 {project.category}
               </span>
             </div>
-            <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold mb-4">
+            <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold mb-4 tracking-[-0.03em]">
               {project.title}
             </h1>
             <div className="flex flex-wrap items-center gap-4 text-sm text-foreground/50">
               <span>{project.date}</span>
-              <span>·</span>
+              <span className="text-foreground/20">·</span>
               <span>{project.team}</span>
-              <span>·</span>
+              <span className="text-foreground/20">·</span>
               <span>{project.client}</span>
               {project.liveUrl && (
                 <>
-                  <span>·</span>
+                  <span className="text-foreground/20">·</span>
                   <a
                     href={project.liveUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1.5 text-accent hover:text-accent/80 transition-colors"
+                    className="inline-flex items-center gap-1.5 text-accent hover:text-accent-light transition-colors"
                     data-cursor="link"
                   >
                     <ExternalLink size={14} />
@@ -174,7 +183,7 @@ export default function ProjectDetail({
         </div>
 
         {/* Content */}
-        <div className="max-w-4xl mx-auto px-6 py-16 space-y-16">
+        <div className="max-w-4xl mx-auto px-6 md:px-12 py-16 space-y-16">
           {/* Challenge */}
           <motion.section
             initial={{ opacity: 0, y: 30 }}
@@ -201,7 +210,7 @@ export default function ProjectDetail({
             <p className="text-foreground/60 leading-relaxed mb-6">
               {project.solution}
             </p>
-            <pre className="bg-foreground/5 border border-border rounded-xl p-6 overflow-x-auto text-sm font-mono text-foreground/70">
+            <pre className="bg-card border border-border rounded-xl p-6 overflow-x-auto text-sm font-mono text-foreground/70">
               <code>{project.codeSnippet}</code>
             </pre>
           </motion.section>
@@ -219,7 +228,7 @@ export default function ProjectDetail({
               {project.tags.map((tag) => (
                 <span
                   key={tag}
-                  className="px-4 py-2 rounded-xl bg-accent/10 text-accent text-sm font-mono"
+                  className="px-4 py-2 rounded-full bg-accent/10 text-accent text-sm font-mono"
                 >
                   {tag}
                 </span>
@@ -240,12 +249,12 @@ export default function ProjectDetail({
               {project.outcomes.map((outcome) => (
                 <div
                   key={outcome.label}
-                  className="text-center p-6 rounded-2xl bg-foreground/5 border border-border"
+                  className="text-center p-6 rounded-2xl bg-card border border-border"
                 >
                   <p className="text-2xl md:text-3xl font-bold text-accent mb-1">
                     {outcome.value}
                   </p>
-                  <p className="text-xs text-foreground/40 uppercase tracking-wider">
+                  <p className="text-xs text-muted uppercase tracking-wider">
                     {outcome.label}
                   </p>
                 </div>
@@ -274,7 +283,7 @@ export default function ProjectDetail({
                   className="group block rounded-2xl overflow-hidden border border-border hover:border-accent/50 transition-all"
                   data-cursor="project"
                 >
-                  <div className="relative h-40">
+                  <div className="relative aspect-[4/3]">
                     <Image
                       src={rel.thumbnail}
                       alt={rel.title}
@@ -287,7 +296,7 @@ export default function ProjectDetail({
                     <h3 className="font-bold group-hover:text-accent transition-colors">
                       {rel.title}
                     </h3>
-                    <p className="text-xs text-foreground/40 mt-1 line-clamp-1">
+                    <p className="text-xs text-muted mt-1 line-clamp-1">
                       {rel.description}
                     </p>
                   </div>

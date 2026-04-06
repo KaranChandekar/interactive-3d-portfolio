@@ -47,7 +47,7 @@ export default function MagneticButton({
       <Tag
         href={href}
         onClick={onClick}
-        className={`inline-flex items-center gap-2 px-8 py-4 rounded-xl bg-accent text-white font-semibold text-sm transition-all duration-300 hover:bg-accent-dark hover:shadow-lg hover:shadow-accent/25 ${className}`}
+        className={`inline-flex items-center gap-2 px-8 py-4 rounded-xl bg-accent text-background font-semibold text-sm transition-all duration-300 hover:bg-accent-dark hover:shadow-lg hover:shadow-accent/25 ${className}`}
         data-cursor="link"
       >
         {children}

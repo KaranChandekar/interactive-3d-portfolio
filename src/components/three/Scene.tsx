@@ -5,7 +5,6 @@ import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { Float } from "@react-three/drei";
 import * as THREE from "three";
 
-// Pre-allocate reusable objects outside components to avoid GC pressure
 const _euler = new THREE.Euler();
 const _quat = new THREE.Quaternion();
 
@@ -27,17 +26,15 @@ function GeometricShape({
   const meshRef = useRef<THREE.Mesh>(null);
   const mouseSmooth = useRef({ x: 0, y: 0 });
 
-  // Memoize material to avoid re-creation
   const material = useMemo(
     () =>
       new THREE.MeshStandardMaterial({
         color,
         transparent: true,
-        opacity: 0.35,
-        roughness: 0.3,
-        metalness: 0.6,
+        opacity: 0.5,
+        roughness: 0.2,
+        metalness: 0.7,
         side: THREE.DoubleSide,
-        wireframe: false,
       }),
     [color]
   );
@@ -75,51 +72,41 @@ function GeometricShape({
   );
 }
 
-function ParticleField() {
-  const ref = useRef<THREE.Points>(null);
-
-  const positions = useMemo(
-    () => Float32Array.from({ length: 100 * 3 }, () => (Math.random() - 0.5) * 18),
-    []
-  );
-
-  useFrame((state) => {
-    if (!ref.current) return;
-    ref.current.rotation.y = state.clock.elapsedTime * 0.015;
-  });
-
-  return (
-    <points ref={ref}>
-      <bufferGeometry>
-        <bufferAttribute attach="attributes-position" args={[positions, 3]} />
-      </bufferGeometry>
-      <pointsMaterial size={0.02} color="#7c3aed" transparent opacity={0.3} sizeAttenuation />
-    </points>
-  );
-}
-
 function Shapes() {
-  const fgRef = useRef<THREE.Group>(null);
-  const bgRef = useRef<THREE.Group>(null);
+  const groupRef = useRef<THREE.Group>(null);
 
   useFrame(() => {
     const sy = window.scrollY || 0;
-    if (fgRef.current) fgRef.current.position.y = sy * 0.001;
-    if (bgRef.current) bgRef.current.position.y = sy * 0.0025;
+    if (groupRef.current) groupRef.current.position.y = sy * 0.001;
   });
 
   return (
-    <>
-      <group ref={bgRef}>
-        <GeometricShape geometry="icosahedron" position={[-4, 2, -6]} color="#4338ca" speed={0.4} floatIntensity={0.4} scale={0.5} />
-        <GeometricShape geometry="octahedron" position={[4, -2, -5]} color="#7e22ce" speed={0.3} floatIntensity={0.3} scale={0.4} />
-      </group>
-      <group ref={fgRef}>
-        <GeometricShape geometry="icosahedron" position={[-2.5, 0.5, -1]} color="#6366f1" speed={1} floatIntensity={1.2} scale={1} />
-        <GeometricShape geometry="torus" position={[2.5, -0.5, -2]} color="#a855f7" speed={0.7} floatIntensity={0.8} scale={0.9} />
-        <GeometricShape geometry="octahedron" position={[0, 1.5, -1.5]} color="#ec4899" speed={0.8} floatIntensity={1} scale={0.8} />
-      </group>
-    </>
+    <group ref={groupRef}>
+      <GeometricShape
+        geometry="icosahedron"
+        position={[-1.5, 0.8, -1]}
+        color="#c8ff00"
+        speed={0.8}
+        floatIntensity={1.2}
+        scale={1.1}
+      />
+      <GeometricShape
+        geometry="torus"
+        position={[1.8, -0.6, -2]}
+        color="#96bf00"
+        speed={0.6}
+        floatIntensity={0.8}
+        scale={0.9}
+      />
+      <GeometricShape
+        geometry="octahedron"
+        position={[0.2, 1.8, -1.5]}
+        color="#d4ff4d"
+        speed={0.7}
+        floatIntensity={1}
+        scale={0.7}
+      />
+    </group>
   );
 }
 
@@ -151,9 +138,8 @@ export default function Scene() {
     >
       <ambientLight intensity={0.5} />
       <directionalLight position={[5, 5, 5]} intensity={1} />
-      <pointLight position={[-5, -3, 4]} intensity={0.6} color="#7c3aed" />
+      <pointLight position={[-5, -3, 4]} intensity={0.6} color="#c8ff00" />
       <Camera />
-      <ParticleField />
       <Shapes />
     </Canvas>
   );

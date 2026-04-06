@@ -1,21 +1,21 @@
 @import "tailwindcss";
 
 @theme inline {
-  --color-background: #0f0f1e;
-  --color-foreground: #f5f0e8;
-  --color-accent: #7c3aed;
-  --color-accent-light: #a78bfa;
-  --color-accent-dark: #5b21b6;
-  --color-cyan: #06b6d4;
-  --color-border: rgba(255, 255, 255, 0.1);
-  --color-card: rgba(255, 255, 255, 0.03);
-  --color-card-hover: rgba(255, 255, 255, 0.06);
+  --color-background: #0a0a0a;
+  --color-foreground: #ededed;
+  --color-accent: #c8ff00;
+  --color-accent-light: #d4ff4d;
+  --color-accent-dark: #96bf00;
+  --color-muted: #888888;
+  --color-border: rgba(255, 255, 255, 0.08);
+  --color-card: rgba(255, 255, 255, 0.04);
+  --color-card-hover: rgba(255, 255, 255, 0.08);
 
   --font-sans: var(--font-space-grotesk);
   --font-mono: var(--font-jetbrains-mono);
 
   --radius-default: 12px;
-  --radius-card: 20px;
+  --radius-card: 16px;
 }
 
 html {
@@ -45,10 +45,9 @@ body {
 
 /* Glassmorphism utility */
 .glass {
-  background: rgba(15, 15, 30, 0.8);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border-bottom: 1px solid var(--color-border);
+  background: rgba(10, 10, 10, 0.8);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
 }
 
 /* GPU acceleration for animated elements */
@@ -60,7 +59,7 @@ body {
 /* Selection color */
 ::selection {
   background: var(--color-accent);
-  color: var(--color-foreground);
+  color: var(--color-background);
 }
 
 /* Smooth focus styles */
@@ -79,75 +78,28 @@ body {
   }
 }
 
-/* Preloader styles */
-.preloader {
-  position: fixed;
-  inset: 0;
-  z-index: 9999;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  background: var(--color-background);
-}
-
-/* Section divider */
-.section-divider {
-  height: 1px;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    var(--color-accent) 20%,
-    var(--color-accent) 80%,
-    transparent
-  );
-  opacity: 0.15;
-  max-width: 80%;
-  margin: 0 auto;
-}
-
 /* Glow effect for cards on hover */
 .card-glow {
   position: relative;
+  transition: box-shadow 0.4s ease;
 }
 
-.card-glow::before {
-  content: "";
-  position: absolute;
-  inset: -1px;
-  border-radius: inherit;
-  background: linear-gradient(135deg, var(--color-accent), var(--color-cyan));
-  opacity: 0;
-  transition: opacity 0.4s ease;
-  z-index: -1;
+.card-glow:hover {
+  box-shadow: 0 0 40px rgba(200, 255, 0, 0.08);
 }
 
-.card-glow:hover::before {
-  opacity: 0.15;
+/* Page reveal animation */
+@keyframes reveal {
+  from {
+    clip-path: inset(0 0 100% 0);
+  }
+  to {
+    clip-path: inset(0);
+  }
 }
 
-/* Noise texture overlay */
-.noise-overlay::after {
-  content: "";
-  position: fixed;
-  inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
-  pointer-events: none;
-  z-index: 9998;
-  opacity: 0.4;
-}
-
-/* Gradient text helper */
-.gradient-text {
-  background: linear-gradient(
-    135deg,
-    var(--color-accent),
-    var(--color-accent-light),
-    var(--color-cyan)
-  );
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+.page-reveal {
+  animation: reveal 0.6s ease-out forwards;
 }
 
 /* Reduced motion */
